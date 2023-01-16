@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { getWeather } from '../../helpers/getWeather';
 
 export function Form({ searchCity }) {
   const [inputValue, setInputValue] = useState('');
