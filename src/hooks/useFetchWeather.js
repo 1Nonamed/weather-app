@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { getFormattedCurrentWeather } from '../services/getWeather';
 
 export const useFetchWeather = (city) => {
-  const [weather, setWeather] = useState([]);
+  const [weather, setWeather] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
   const getWeatherData = async () => {
