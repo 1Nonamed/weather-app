@@ -6,7 +6,7 @@ import { Weather } from './components/Weather/Weather';
 import { useFetchWeather } from './hooks/useFetchWeather';
 
 export const WeatherApp = () => {
-  const [city, setCity] = useState('');
+  const [city, setCity] = useState('london');
   const { weather, isLoading } = useFetchWeather(city);
 
   const searchCity = (newCity) => {
@@ -16,11 +16,15 @@ export const WeatherApp = () => {
 
   return (
     <>
-      <Header />
       {/* {isLoading && <h1>Loading...</h1>} */}
+      <Header />
       <Container>
         <Form searchCity={searchCity} />
-        <Weather city={city} weather={weather} />
+        {isLoading ? (
+          <h1>Loading...</h1>
+        ) : (
+          <Weather weather={weather} isLoading={isLoading} />
+        )}
       </Container>
     </>
   );

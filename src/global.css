@@ -1,3 +1,7 @@
+:root {
+  --base: 0.25rem;
+}
+/* Body */
 body {
   padding: 0;
   margin: 0;
@@ -6,6 +10,7 @@ body {
   /* background: #222; */
 }
 
+/* Tags */
 h1,
 h2,
 h3,
@@ -14,4 +19,35 @@ h5,
 h6,
 p {
   margin: 0;
+}
+
+section {
+  padding: 1.5rem 0;
+}
+
+/* Display */
+.flex {
+  display: flex;
+}
+.space-between {
+  justify-content: space-between;
+}
+.align-center {
+  align-items: center;
+}
+
+/* Text */
+.text-center {
+  text-align: center;
+}
+
+/* Spacing */
+
+.px-4 {
+  padding-left: calc(var(--base) * 4);
+  padding-right: calc(var(--base) * 4);
+}
+.py-3 {
+  padding-top: calc(var(--base) * 3);
+  padding-bottom: calc(var(--base) * 3);
 }

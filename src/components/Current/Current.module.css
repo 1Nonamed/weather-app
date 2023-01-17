@@ -1,0 +1,13 @@
+article {
+  padding: 1rem 0;
+  background-color: #b9d0ff;
+}
+.currentTime {
+  font-size: 0.8rem;
+  /* font-style: italic; */
+  font-weight: 400;
+}
+.currentTemp {
+  font-size: 3rem;
+  font-weight: 600;
+}

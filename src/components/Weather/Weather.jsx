@@ -1,8 +1,11 @@
-export const Weather = ({ city, weather }) => {
+import { Current } from '../Current/Current';
+
+export const Weather = ({ weather = {}, isLoading }) => {
+  const { current, daily, hourly } = weather;
   return (
     <>
-      <h3>{city}</h3>
-      <p>{JSON.stringify(weather, '\n', 6)}</p>
+      {isLoading && <h1>Loading...</h1>}
+      <Current current={current} />
     </>
   );
 };
