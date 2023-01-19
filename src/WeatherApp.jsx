@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Form } from './components/Form/Form';
 import { Header } from './components/Header/Header';
 import { Container } from './components/Container/Container';
@@ -7,11 +7,17 @@ import { useFetchWeather } from './hooks/useFetchWeather';
 
 export const WeatherApp = () => {
   const [city, setCity] = useState('london');
-  const { weather, isLoading } = useFetchWeather(city);
+  const [units, setUnits] = useState('metric');
+  const { weather, isLoading } = useFetchWeather(city, units);
 
   const searchCity = (newCity) => {
     if (city === newCity) return;
     setCity(newCity);
+  };
+
+  const changeMetricSystem = (newUnits) => {
+    console.log(newUnits);
+    setUnits(newUnits);
   };
 
   return (
@@ -23,7 +29,12 @@ export const WeatherApp = () => {
         {isLoading ? (
           <h1>Loading...</h1>
         ) : (
-          <Weather weather={weather} isLoading={isLoading} />
+          <Weather
+            weather={weather}
+            isLoading={isLoading}
+            units={units}
+            changeUnits={changeMetricSystem}
+          />
         )}
       </Container>
     </>
