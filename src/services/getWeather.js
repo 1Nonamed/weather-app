@@ -1,101 +1,101 @@
-import {
-  format,
-  formatInTimeZone,
-  utcToZonedTime,
-  zonedTimeToUtc,
-} from 'date-fns-tz';
+import { fromUnixTime } from 'date-fns';
+import { formatInTimeZone } from 'date-fns-tz';
 
 const API_KEY = 'bc27fe4abd9cb11b72f7c20202f00df1';
 const BASE_URL = 'https://api.openweathermap.org/data/2.5';
 
-const getWeather = async (reqType, searchParams) => {
+async function getWeather(reqType, searchParams) {
   const url = new URL(`${BASE_URL}/${reqType}`); // URL API
   url.search = new URLSearchParams({ ...searchParams, appid: API_KEY }); // Add new params and the key to the search att
 
   const res = await fetch(url);
+  console.log(res);
+  if (res.status !== 200) return { error: { msg: 'La ciudad no existe' } };
   const data = await res.json();
+  console.log(data);
 
   return data;
+}
+
+const generateIconUrl = (iconId) => {
+  return `http://openweathermap.org/img/wn/${iconId}@2x.png`;
 };
 
-const formatCurrentWeather = (data) => {
-  console.log(data);
+const $ = (date, tz, format) => {
+  return formatInTimeZone(fromUnixTime(date), tz, format);
+};
+
+function formatCurrentObj(currentObj, tz, dt) {
   const {
-    coord: { lon, lat },
-    dt,
-    main: { temp, feels_like, temp_min, temp_max, humidity },
+    main: { temp, feels_like, temp_max, temp_min },
     name,
     sys: { country, sunrise, sunset },
     weather,
-    wind: { speed },
-  } = data;
-
+    wind_speed,
+  } = currentObj;
   const { main: description, icon } = weather[0];
 
   return {
     country,
     description,
-    dt,
+    dt: $(dt, tz, 'MMM d, h:m aaa'),
     feels_like,
-    humidity,
-    icon,
-    lat,
-    lon,
+    icon: generateIconUrl(icon),
     name,
-    speed,
-    sunrise,
-    sunset,
-    temp_max,
+    wind_speed,
+    sunrise: $(sunrise, tz, 'h:m aaa'),
+    sunset: $(sunset, tz, 'h:m aaa'),
+    temp_max: Math.round(temp_max),
     temp_min,
     temp,
   };
-};
-const formatForecastWeather = (data) => {
-  let { daily, hourly, timezone } = data;
-  console.log(daily, timezone);
-  daily = daily.slice(1, 6).map((d) => {
-    const zonedDate = utcToZonedTime(d.dt, timezone);
+}
+
+function formatForecastArrProp(forecastArr, tz, format) {
+  const formattedArr = forecastArr.slice(1, 6).map((d) => {
     return {
-      date: format(zonedDate, 'yyyy-MM-dd HH:mm:ss zzz', timezone),
-      feels_like: d.feels_like,
+      date: $(d.dt, tz, format),
+      feels_like: d.feels_like.day || d.feels_like,
       temp: d.temp,
-      icon: d.weather[0].icon,
+      icon: generateIconUrl(d.weather[0].icon),
       description: d.weather[0].description,
     };
   });
+  return formattedArr;
+}
 
-  hourly = hourly.slice(1, 6).map((h) => {
-    const zonedDate = utcToZonedTime(h.dt, timezone);
-    return {
-      date: format(zonedDate, 'yyyy-MM-dd HH:mm:ss zzz', timezone),
-      feels_like: h.feels_like,
-      temp: h.temp,
-      icon: h.weather[0].icon,
-      description: h.weather[0].description,
-    };
-  });
-  console.log(daily);
-  return { daily, hourly, timezone };
-};
+function formatWeatherData(forecastObj, currentObj) {
+  console.log(forecastObj);
+  let { current, daily, hourly, timezone: tz } = forecastObj;
+  let { dt } = current;
 
-export const getFormattedCurrentWeather = async (searchParams) => {
-  const { q } = searchParams;
+  current = formatCurrentObj(currentObj, tz, dt);
+  daily = formatForecastArrProp(daily, tz, 'E');
+  hourly = formatForecastArrProp(hourly, tz, 'hh:mm aaa');
+
+  return { current, daily, hourly };
+}
+
+export async function getFormattedWeather(searchParams) {
+  const { q, units } = searchParams;
   if (!q) return;
 
-  const currentData = await getWeather('weather', { q, units: 'metric' });
-  const formattedCurrentWeather = formatCurrentWeather(currentData);
-  const { lat, lon } = formattedCurrentWeather;
+  const currentData = await getWeather('weather', { q, units });
+  const {
+    coord: { lat, lon },
+  } = currentData;
 
   const forecastData = await getWeather('onecall', {
     lat,
     lon,
-    exclude: 'current,minutely',
-    units: 'metric',
+    exclude: 'minutely,alerts',
+    units,
+    // lang: 'sp',
   });
-  const formattedForecastWeather = formatForecastWeather(forecastData);
+
+  const formattedWeatherData = formatWeatherData(forecastData, currentData);
 
   return {
-    current: { ...formattedCurrentWeather },
-    ...formattedForecastWeather,
+    ...formattedWeatherData,
   };
-};
+}
