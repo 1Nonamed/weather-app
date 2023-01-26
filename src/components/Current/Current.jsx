@@ -1,18 +1,18 @@
-import styles from './Current.module.css';
+import styles from './Current.module.css'
 
 export function Current({ current, units, changeUnits }) {
-  const toggleClass = (u) => (units === u ? styles.active : styles.inactive);
+  const toggleClass = (u) => (units === u ? styles.active : styles.inactive)
 
   return (
     <section>
-      <article className="px-4 py-3">
+      <article className='px-4 py-3'>
         <h2>
           {current.name}, {current.country}
           <span className={styles.currentTime}> {current.dt}</span>
         </h2>
-        <div className="flex space-between align-center">
+        <div className='flex space-between align-center'>
           <div>
-            <div className="flex align-center">
+            <div className='flex align-center'>
               <p className={styles.currentTemp}>{current.temp}</p>
               <p>
                 <button onClick={() => changeUnits('metric')}>
@@ -37,5 +37,5 @@ export function Current({ current, units, changeUnits }) {
         </div>
       </article>
     </section>
-  );
+  )
 }

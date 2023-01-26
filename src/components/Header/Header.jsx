@@ -1,4 +1,4 @@
-import styles from './Header.module.css';
+import styles from './Header.module.css'
 export const Header = () => {
   return (
     <header className={styles.header}>
@@ -8,5 +8,5 @@ export const Header = () => {
       </div>
       <div>🌎</div>
     </header>
-  );
-};
+  )
+}

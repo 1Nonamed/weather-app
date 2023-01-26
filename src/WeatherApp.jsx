@@ -1,24 +1,24 @@
-import { useState } from 'react';
-import { Form } from './components/Form/Form';
-import { Header } from './components/Header/Header';
-import { Container } from './components/Container/Container';
-import { Weather } from './components/Weather/Weather';
-import { useFetchWeather } from './hooks/useFetchWeather';
+import { useState } from 'react'
+import { Form } from './components/Form/Form'
+import { Header } from './components/Header/Header'
+import { Container } from './components/Container/Container'
+import { Weather } from './components/Weather/Weather'
+import { useFetchWeather } from './hooks/useFetchWeather'
 
 export const WeatherApp = () => {
-  const [city, setCity] = useState('london');
-  const [units, setUnits] = useState('metric');
-  const { weather, isLoading } = useFetchWeather(city, units);
+  const [city, setCity] = useState('london')
+  const [units, setUnits] = useState('metric')
+  const { weather, isLoading } = useFetchWeather(city, units)
 
   const searchCity = (newCity) => {
-    if (city === newCity) return;
-    setCity(newCity);
-  };
+    if (city === newCity) return
+    setCity(newCity)
+  }
 
   const changeMetricSystem = (newUnits) => {
-    console.log(newUnits);
-    setUnits(newUnits);
-  };
+    console.log(newUnits)
+    setUnits(newUnits)
+  }
 
   return (
     <>
@@ -38,5 +38,5 @@ export const WeatherApp = () => {
         )}
       </Container>
     </>
-  );
-};
+  )
+}
