@@ -3,10 +3,10 @@ export function Forecast({ forecastData, frecuency, isDaily }) {
     <section>
       <h2>{frecuency} forecast</h2>
       <div className='flex overflow-x'>
-        {forecastData.map((d) => {
+        {forecastData?.map((d, index) => {
           const temp = frecuency === 'hourly' ? d.temp : d.temp.day
           return (
-            <article key={d.dt} className='text-center'>
+            <article key={index} className='text-center'>
               <div>
                 <p>{d.date}</p>
                 <p>{temp}</p>

@@ -7,13 +7,13 @@ export function Current({ current, units, changeUnits }) {
     <section>
       <article className='px-4 py-3'>
         <h2>
-          {current.name}, {current.country}
-          <span className={styles.currentTime}> {current.dt}</span>
+          {current?.name}, {current?.country}
+          <span className={styles.currentTime}> {current?.dt}</span>
         </h2>
         <div className='flex space-between align-center'>
           <div>
             <div className='flex align-center'>
-              <p className={styles.currentTemp}>{current.temp}</p>
+              <p className={styles.currentTemp}>{current?.temp}</p>
               <p>
                 <button onClick={() => changeUnits('metric')}>
                   <span className={toggleClass('metric')}>°C</span>
@@ -24,16 +24,16 @@ export function Current({ current, units, changeUnits }) {
                 </button>
               </p>
             </div>
-            <p>Feels like {current.feels_like}</p>
+            <p>Feels like {current?.feels_like}</p>
           </div>
           <aside>
-            <img src={current.icon} alt={current.description} />
-            <p>{current.description}</p>
+            <img src={current?.icon} alt={current?.description} />
+            <p>{current?.description}</p>
           </aside>
         </div>
         <div>
-          <p>Sunrise {current.sunrise}</p>
-          <p>Sunset {current.sunset}</p>
+          <p>Sunrise {current?.sunrise}</p>
+          <p>Sunset {current?.sunset}</p>
         </div>
       </article>
     </section>
