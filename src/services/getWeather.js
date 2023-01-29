@@ -9,11 +9,9 @@ async function getWeather(reqType, searchParams) {
   url.search = new URLSearchParams({ ...searchParams, appid: API_KEY }) // Add new params and the key to the search att
 
   const res = await fetch(url)
-  console.log(res)
-  if (res.status !== 200) return { error: { msg: 'La ciudad no existe' } }
-  const data = await res.json()
-  console.log(data)
+  if (!res.ok) return
 
+  const data = await res.json()
   return data
 }
 
@@ -65,7 +63,6 @@ function formatForecastArrProp(forecastArr, tz, format) {
 }
 
 function formatWeatherData(forecastObj, currentObj) {
-  console.log(forecastObj)
   let { current, daily, hourly, timezone: tz } = forecastObj
   const { dt } = current
 
@@ -81,6 +78,9 @@ export async function getFormattedWeather(searchParams) {
   if (!q) return
 
   const currentData = await getWeather('weather', { q, units })
+
+  if (!currentData) return
+
   const {
     coord: { lat, lon }
   } = currentData
@@ -94,7 +94,6 @@ export async function getFormattedWeather(searchParams) {
   })
 
   const formattedWeatherData = formatWeatherData(forecastData, currentData)
-
   return {
     ...formattedWeatherData
   }
