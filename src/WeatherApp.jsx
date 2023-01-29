@@ -1,41 +1,30 @@
-import { useState } from 'react'
 import { Form } from './components/Form/Form'
 import { Header } from './components/Header/Header'
 import { Container } from './components/Container/Container'
 import { Weather } from './components/Weather/Weather'
-import { useFetchWeather } from './hooks/useFetchWeather'
+import { useWeather } from './hooks/useWeather'
+// import { useGeolocation } from './hooks/useGeolocation'
 
 export const WeatherApp = () => {
-  const [city, setCity] = useState('london')
-  const [units, setUnits] = useState('metric')
-  const { weather, isLoading } = useFetchWeather(city, units)
-
-  const searchCity = (newCity) => {
-    if (city === newCity) return
-    setCity(newCity)
-  }
-
-  const changeMetricSystem = (newUnits) => {
-    console.log(newUnits)
-    setUnits(newUnits)
-  }
+  // const { location } = useGeolocation()
+  const { units, weather, isLoading, searchCity, changeMetricSystem, isError } =
+    useWeather({ location })
 
   return (
     <>
-      {/* {isLoading && <h1>Loading...</h1>} */}
       <Header />
       <Container>
         <Form searchCity={searchCity} />
-        {isLoading ? (
-          <h1>Loading...</h1>
-        ) : (
-          <Weather
-            weather={weather}
-            isLoading={isLoading}
-            units={units}
-            changeUnits={changeMetricSystem}
-          />
-        )}
+        {isError && <h1>City not Found</h1>}
+        {/* <p>Search a city</p> */}
+
+        <Weather
+          weather={weather}
+          isLoading={isLoading}
+          units={units}
+          changeUnits={changeMetricSystem}
+          isError={isError}
+        />
       </Container>
     </>
   )
