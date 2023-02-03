@@ -3,27 +3,25 @@ import { Header } from './components/Header/Header'
 import { Container } from './components/Container/Container'
 import { Weather } from './components/Weather/Weather'
 import { useWeather } from './hooks/useWeather'
-// import { useGeolocation } from './hooks/useGeolocation'
+import { useGeolocation } from './hooks/useGeolocation'
 
 export const WeatherApp = () => {
-  // const { location } = useGeolocation()
-  const { units, weather, isLoading, searchCity, changeMetricSystem, isError } =
-    useWeather({ location })
+  const { initialWeather, isLoading } = useGeolocation()
+  const { city } = useWeather({ initialWeather })
 
   return (
     <>
       <Header />
       <Container>
-        <Form searchCity={searchCity} />
-        {isError && <h1>City not Found</h1>}
+        <Form />
         {/* <p>Search a city</p> */}
-
+        {isLoading && <h1>Loading...</h1>}
         <Weather
-          weather={weather}
+          weather={initialWeather}
           isLoading={isLoading}
-          units={units}
-          changeUnits={changeMetricSystem}
-          isError={isError}
+          // units={units}
+          // changeUnits={changeMetricSystem}
+          // isError={isError}
         />
       </Container>
     </>

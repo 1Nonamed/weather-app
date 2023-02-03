@@ -62,11 +62,11 @@ function formatForecastArrProp(forecastArr, tz, format) {
   return formattedArr
 }
 
-function formatWeatherData(forecastObj, currentObj) {
-  let { current, daily, hourly, timezone: tz } = forecastObj
+function formatWeatherData({ forecastData, currentData }) {
+  let { current, daily, hourly, timezone: tz } = forecastData
   const { dt } = current
 
-  current = formatCurrentObj(currentObj, tz, dt)
+  current = formatCurrentObj(currentData, tz, dt)
   daily = formatForecastArrProp(daily, tz, 'E')
   hourly = formatForecastArrProp(hourly, tz, 'hh:mm aaa')
 
@@ -74,27 +74,42 @@ function formatWeatherData(forecastObj, currentObj) {
 }
 
 export async function getFormattedWeather(searchParams) {
-  const { q, units } = searchParams
-  if (!q) return
+  const { q, units = 'metric', lat, lon } = searchParams
+  if (lat && lon) {
+    const currentData = await getWeather('weather', { q, units })
+    const forecastData = await getWeather('onecall', {
+      lat,
+      lon,
+      exclude: 'minutely,alerts'
+      // lang: 'sp',
+    })
 
-  const currentData = await getWeather('weather', { q, units })
-
-  if (!currentData) return
-
-  const {
-    coord: { lat, lon }
-  } = currentData
-
-  const forecastData = await getWeather('onecall', {
-    lat,
-    lon,
-    exclude: 'minutely,alerts',
-    units
-    // lang: 'sp',
-  })
-
-  const formattedWeatherData = formatWeatherData(forecastData, currentData)
-  return {
-    ...formattedWeatherData
+    const formattedWeatherData = formatWeatherData({
+      forecastData,
+      currentData
+    })
+    return formattedWeatherData
   }
+  // if (!q) return
+
+  // const currentData = await getWeather('weather', { q, units })
+
+  // if (!currentData) return
+
+  // const {
+  //   coord: { lati, long }
+  // } = currentData
+
+  // const forecastData = await getWeather('onecall', {
+  //   lati,
+  //   long,
+  //   exclude: 'minutely,alerts',
+  //   units
+  //   // lang: 'sp',
+  // })
+
+  // const formattedWeatherData = formatWeatherData(forecastData, currentData)
+  // return {
+  //   ...formattedWeatherData
+  // }
 }
