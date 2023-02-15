@@ -1,0 +1,37 @@
+{
+  "ip": "181.235.84.67",
+  "continent_code": "SA",
+  "continent_name": "South America",
+  "country_code2": "CO",
+  "country_code3": "COL",
+  "country_name": "Colombia",
+  "country_capital": "Bogota",
+  "state_prov": "",
+  "district": "",
+  "city": "Bogota, D.C.",
+  "zipcode": "111121",
+  "latitude": "4.69778",
+  "longitude": "-74.06960",
+  "is_eu": false,
+  "calling_code": "+57",
+  "country_tld": ".co",
+  "languages": "es-CO",
+  "country_flag": "https://ipgeolocation.io/static/flags/co_64.png",
+  "geoname_id": "9612550",
+  "isp": "COLOMBIA TELECOMUNICACIONES S.A. ESP",
+  "connection_type": "",
+  "organization": "COLOMBIA TELECOMUNICACIONES S.A. ESP",
+  "currency": {
+    "code": "COP",
+    "name": "Colombian Peso",
+    "symbol": "$"
+  },
+  "time_zone": {
+    "name": "America/Bogota",
+    "offset": -5,
+    "current_time": "2023-02-11 18:24:32.907-0500",
+    "current_time_unix": 1676157872.907,
+    "is_dst": false,
+    "dst_savings": 0
+  }
+}
