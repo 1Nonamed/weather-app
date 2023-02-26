@@ -1,5 +1,3 @@
-import styles from './Container.module.css'
-
-export const Container = ({ children }) => {
-  return <main className={styles.container}>{children}</main>
+export function Container({ children }) {
+  return <main className='text-slate-50 bg-black'>{children}</main>
 }

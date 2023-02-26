@@ -23,6 +23,7 @@ export const WeatherApp = () => {
   //     })
   //   )
   // }
+
   useEffect(() => {
     const weather = weatherData()
     setWeather(weather)
@@ -33,8 +34,6 @@ export const WeatherApp = () => {
       <Header />
       <Container>
         <Form />
-        {/* <p>Search a city</p> */}
-        {/* {isLoading && <h1>Loading...</h1>} */}
         <Weather
           weather={weather}
           // isLoading={isLoading}
