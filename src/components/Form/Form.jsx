@@ -35,28 +35,27 @@ export function Form({ searchCity }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className='block px-4 pt-3 relative'>
-      <div className='flex items-center gap-2'>
-        <label htmlFor='city' className='font-semibold'>
-          City
-        </label>
-        <div className='flex flex-1'>
-          <input
-            type='text'
-            name='city'
-            id='city'
-            onChange={handleChange}
-            value={inputValue}
-            className='flex-1 pl-2 py-1 text-sm bg-slate-200 border border-transparent rounded-tl rounded-bl focus:outline-none focus:border-teal-400'
-          />
-          <button
-            type='submit'
-            title='submit'
-            className='bg-slate-700 p-1 border border-transparent rounded-tr rounded-br cursor-pointer focus:outline-none focus:border-teal-400'
-          >
-            <SearchIcon />
-          </button>
-        </div>
+    <form
+      onSubmit={handleSubmit}
+      className='flex items-center h-[60px] px-4 py-3'
+    >
+      <div className='flex w-full'>
+        <input
+          type='text'
+          name='city'
+          id='city'
+          placeholder='London'
+          onChange={handleChange}
+          value={inputValue}
+          className='flex-1 pl-2 py-1 text-sm bg-slate-200 border border-transparent rounded-tl rounded-bl focus:outline-none focus:border-teal-400'
+        />
+        <button
+          type='submit'
+          title='submit'
+          className='bg-slate-700 p-1 border border-transparent rounded-tr rounded-br cursor-pointer focus:outline-none focus:border-teal-400'
+        >
+          <SearchIcon />
+        </button>
       </div>
     </form>
   )
