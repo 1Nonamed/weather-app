@@ -6,21 +6,23 @@ export const useGeolocation = () => {
   const [initialWeather, setInitialWeather] = useState({})
   const [isLoading, setIsLoading] = useState(true)
 
-  const getWeatherData = async ({ city, lat, lon }) => {
+  const getFirstRenderGeolocationData = async () => {
+    const initialData = await getGeolocation()
+    getFirstRenderWeatherData(initialData)
+  }
+
+  const getFirstRenderWeatherData = async ({ city, lat, lon }) => {
     const weatherData = await getFormattedWeather({
       q: city,
       lat,
-      lon
+      lon,
+      firstRender: true
     })
     setInitialWeather(weatherData)
   }
 
   useEffect(() => {
-    setIsLoading(true)
-    ;(async () => {
-      const initialData = await getGeolocation()
-      getWeatherData(initialData)
-    })()
+    getFirstRenderGeolocationData()
     setIsLoading(false)
   }, [])
 
