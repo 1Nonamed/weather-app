@@ -3,28 +3,26 @@ import { getGeolocation } from '../services/getGeolocation'
 import { getFormattedWeather } from '../services/getWeather'
 
 export const useGeolocation = () => {
-  const [initialWeather, setInitialWeather] = useState({})
+  const [initialWeatherData, setInitialWeatherData] = useState({})
   const [isLoading, setIsLoading] = useState(true)
 
-  const getFirstRenderGeolocationData = async () => {
-    const initialData = await getGeolocation()
-    getFirstRenderWeatherData(initialData)
+  const getInitalGeolocationData = async () => {
+    const initialGeolocationData = await getGeolocation()
+    getInitialWeatherData(initialGeolocationData)
   }
 
-  const getFirstRenderWeatherData = async ({ city, lat, lon }) => {
+  const getInitialWeatherData = async (initialGeolocationData) => {
     const weatherData = await getFormattedWeather({
-      q: city,
-      lat,
-      lon,
+      ...initialGeolocationData,
       firstRender: true
     })
-    setInitialWeather(weatherData)
+    setInitialWeatherData(weatherData)
   }
 
   useEffect(() => {
-    getFirstRenderGeolocationData()
+    getInitalGeolocationData()
     setIsLoading(false)
   }, [])
 
-  return { initialWeather, isLoading }
+  return { initialWeatherData, isLoading }
 }
