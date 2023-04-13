@@ -7,12 +7,14 @@ export const Weather = ({ weather, units, changeUnits, isLoading }) => {
   return (
     <>
       {isLoading ? (
-        <h1>Loading...</h1>
+        <div className='h-[calc(100vh-60px)] bg-red-600 text-7xl'>
+          <h1>Loading...</h1>
+        </div>
       ) : (
         <>
           <Current current={current} units={units} changeUnits={changeUnits} />
           <Forecast forecastData={hourly} frecuency='hourly' />
-          <Forecast forecastData={daily} frecuency='daily' isDaily={true} />
+          <Forecast forecastData={daily} frecuency='daily' />
         </>
       )}
     </>

@@ -1,16 +1,6 @@
 export function Current({ current, units, changeUnits }) {
   // const toggleClass = (u) => (units === u ? styles.active : styles.inactive)
 
-  // ;<p>
-  //   <button onClick={() => changeUnits('metric')} className='cursor-pointer'>
-  //     <span>°C</span>
-  //   </button>
-  //   <span> | </span>
-  //   <button onClick={() => changeUnits('imperial')} className='cursor-pointer'>
-  //     <span>°F</span>
-  //   </button>
-  // </p>
-
   return (
     <section className='h-[calc(100vh-60px)] pt-5 pb-4 z-20 grid place-items-center text-center bg-red-200'>
       <article className='grid gap-5 justify-center'>
@@ -24,6 +14,22 @@ export function Current({ current, units, changeUnits }) {
               <p className='text-6xl'>{current?.temp}</p>
               <p className='mt-3'>Feels like {current?.feelsLike}</p>
             </div>
+
+            <p>
+              <button
+                onClick={() => changeUnits('metric')}
+                className='cursor-pointer'
+              >
+                <span>°C</span>
+              </button>
+              <span> | </span>
+              <button
+                onClick={() => changeUnits('imperial')}
+                className='cursor-pointer'
+              >
+                <span>°F</span>
+              </button>
+            </p>
           </div>
         </div>
         <div>
