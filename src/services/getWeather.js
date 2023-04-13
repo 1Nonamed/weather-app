@@ -15,17 +15,21 @@ async function getWeather(reqType, searchParams) {
 }
 
 export async function getFormattedWeather(searchParams) {
-  const { q, units, lat, lon, firstRender } = searchParams
-  if (!q) return
-  if (firstRender) {
-    const currentData = await getWeather('weather', { q, units: 'metric' })
+  console.log(searchParams.city)
+  const { city, units, lat, lon, firstRender } = searchParams
+
+  if (!city) return
+
+  if (!firstRender) {
+    const currentData = await getWeather('weather', { q: city, units })
+    const { coord } = currentData
     const forecastData = await getWeather('onecall', {
-      lat,
-      lon,
-      exclude: 'minutely,alerts'
+      lat: coord.lat,
+      lon: coord.lon,
+      exclude: 'minutely,alerts',
+      units
       // lang: 'sp',
     })
-
     const formattedWeatherData = formatWeatherData({
       currentData,
       forecastData
@@ -33,20 +37,21 @@ export async function getFormattedWeather(searchParams) {
     return { ...formattedWeatherData }
   }
 
-  const currentData = await getWeather('weather', { q, units })
-  // if (!currentData) return
-
-  const { coord } = currentData
-  console.log(currentData)
-
-  const forecastData = await getWeather('onecall', {
-    lat: coord.lat,
-    lon: coord.lon,
-    exclude: 'minutely,alerts',
+  const currentData = await getWeather('weather', {
+    q: city,
     units
+  })
+  const forecastData = await getWeather('onecall', {
+    lat,
+    lon,
+    exclude: 'minutely,alerts'
     // lang: 'sp',
   })
-  console.log(forecastData)
-  const formattedWeatherData = formatWeatherData({ currentData, forecastData })
-  return formattedWeatherData
+
+  const formattedWeatherData = formatWeatherData({
+    currentData,
+    forecastData
+  })
+
+  return { ...formattedWeatherData }
 }
